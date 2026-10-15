@@ -1,0 +1,42 @@
+name: Test and build
+on: [push, pull_request]
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: dispatch
+          POSTGRES_PASSWORD: dispatch
+          POSTGRES_DB: dispatch_test
+        ports: ["5432:5432"]
+        options: --health-cmd "pg_isready -U dispatch -d dispatch_test" --health-interval 3s --health-timeout 3s --health-retries 20
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt
+      - run: pytest -q
+      - run: pytest -q
+        env:
+          TEST_DATABASE_URL: postgresql+psycopg://dispatch:dispatch@localhost:5432/dispatch_test
+      - run: alembic upgrade head
+        env:
+          DATABASE_URL: postgresql+psycopg://dispatch:dispatch@localhost:5432/dispatch_test
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: {version: '11.25.0', run_install: false, package_json_file: frontend/package.json}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22', cache: pnpm, cache-dependency-path: frontend/pnpm-lock.yaml}
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build

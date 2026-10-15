@@ -1,0 +1,58 @@
+{
+  "python": "3.12.15",
+  "platform": "Linux-7.0.14-linuxkit-aarch64-with-glibc2.41",
+  "seed": 42,
+  "repetitions": 100,
+  "warmups": 10,
+  "scope": "in-process ranking only; objective is the dispatch score, not observed delivery time",
+  "results": [
+    {
+      "drivers": 100,
+      "algorithm": "priority",
+      "median_ms": 0.07072899999999999,
+      "p95_ms": 0.080833,
+      "mean_objective_minutes": 7.789798074692987,
+      "mean_pickup_distance_km": 2.9575234688726897
+    },
+    {
+      "drivers": 100,
+      "algorithm": "nearest",
+      "median_ms": 0.0585,
+      "p95_ms": 0.063,
+      "mean_objective_minutes": 9.630207033132981,
+      "mean_pickup_distance_km": 0.8197744051517687
+    },
+    {
+      "drivers": 1000,
+      "algorithm": "priority",
+      "median_ms": 0.761021,
+      "p95_ms": 1.184083,
+      "mean_objective_minutes": 7.397505804990541,
+      "mean_pickup_distance_km": 2.9383785328025827
+    },
+    {
+      "drivers": 1000,
+      "algorithm": "nearest",
+      "median_ms": 0.6147290000000001,
+      "p95_ms": 0.876667,
+      "mean_objective_minutes": 9.734373025953428,
+      "mean_pickup_distance_km": 0.26245433914315874
+    },
+    {
+      "drivers": 10000,
+      "algorithm": "priority",
+      "median_ms": 7.9571045,
+      "p95_ms": 9.241083,
+      "mean_objective_minutes": 7.265094768414813,
+      "mean_pickup_distance_km": 2.9032302131047056
+    },
+    {
+      "drivers": 10000,
+      "algorithm": "nearest",
+      "median_ms": 6.3197915,
+      "p95_ms": 7.490792,
+      "mean_objective_minutes": 9.733911404913995,
+      "mean_pickup_distance_km": 0.08117326920337214
+    }
+  ]
+}
